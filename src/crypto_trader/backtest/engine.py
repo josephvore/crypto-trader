@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal
 
-import pandas as pd  # type: ignore[import-untyped]
+import pandas as pd
 
 from crypto_trader.core.interfaces import MarketData
 from crypto_trader.execution.paper import PaperExecution

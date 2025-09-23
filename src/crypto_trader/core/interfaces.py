@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Literal, Protocol
 
-import pandas as pd  # type: ignore[import-untyped]
+import pandas as pd
 
 
 @dataclass(frozen=True)

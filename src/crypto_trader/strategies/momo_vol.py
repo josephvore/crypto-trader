@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
-import pandas as pd  # type: ignore[import-untyped]
+import pandas as pd
 
 from crypto_trader.core.interfaces import MarketData, Signal, Strategy
 
