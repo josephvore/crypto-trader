@@ -6,20 +6,16 @@ class App:
         self.settings: Settings = Settings()
 
     def init_project(self) -> None:
-        return
+        pass
 
     def run_backtest(self, config_path: str) -> None:
         _ = config_path
-        return
 
     def run_tuning(self, config_path: str) -> None:
         _ = config_path
-        return
 
     def run_paper(self, config_path: str) -> None:
         _ = config_path
-        return
 
     def run_live(self, config_path: str) -> None:
         _ = config_path
-        return
