@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-import pandas as pd
+import pandas as pd  # type: ignore[import-untyped]
 
 OHLCV_COLUMNS = ["timestamp", "open", "high", "low", "close", "volume"]
 

@@ -1,30 +1,23 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any, Literal, Protocol
+
+import pandas as pd  # type: ignore[import-untyped]
 
 
 @dataclass(frozen=True)
 class MarketData:
     symbol: str
-    timestamp: int
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: float
-    bid: float | None = None
-    ask: float | None = None
-
-
-SignalType = Literal["buy", "sell", "flat"]
+    df: pd.DataFrame
 
 
 @dataclass(frozen=True)
 class Signal:
     symbol: str
-    timestamp: int
-    type: SignalType
+    timestamp: datetime
+    direction: int
     strength: float = 1.0
     meta: dict[str, Any] | None = None
 
@@ -35,43 +28,46 @@ OrderType = Literal["market", "limit", "ioc", "post_only"]
 
 @dataclass(frozen=True)
 class Order:
-    client_id: str
+    client_order_id: str
+    exchange: str
     symbol: str
     side: OrderSide
     type: OrderType
-    quantity: float
+    qty: float
     price: float | None = None
+    status: str = "new"
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
 
 @dataclass(frozen=True)
 class Fill:
-    order_client_id: str
+    order_id: int
+    trade_id: str
     symbol: str
     side: OrderSide
+    qty: float
     price: float
-    quantity: float
     fee: float
-    timestamp: int
+    timestamp: datetime
 
 
 class Strategy(Protocol):
     name: str
 
-    def on_bar(self, data: MarketData) -> None: ...
-    def generate_signals(self, data: list[MarketData]) -> list[Signal]: ...
+    def generate_signals(self, data: MarketData) -> list[Signal]: ...
 
 
 class RiskModel(Protocol):
-    def position_size(self, signal: Signal, volatility: float) -> float: ...
-    def check_limits(self, portfolio: Any) -> bool: ...
+    def position_size(self, signal: Signal, price_history: pd.Series, balance: float) -> float: ...
+    def check_limits(self, equity: float, peak_equity: float, position_value: float) -> bool: ...
 
 
 class ExecutionEngine(Protocol):
-    async def send(self, order: Order) -> str: ...
-    async def cancel(self, order_id: str) -> None: ...
-    async def reconcile(self) -> None: ...
+    async def submit(self, order: Order) -> Order: ...
+    async def cancel(self, client_order_id: str) -> None: ...
+    async def reconcile(self, price: float) -> list[Fill]: ...
 
 
 class PortfolioEngine(Protocol):
-    def update(self, fill: Fill) -> None: ...
-    def exposure(self) -> dict[str, float]: ...
+    def on_fills(self, fills: list[Fill]) -> None: ...

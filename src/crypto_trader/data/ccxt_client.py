@@ -4,7 +4,7 @@ import asyncio
 from contextlib import suppress
 from typing import Any, cast
 
-import ccxt.async_support as ccxt
+import ccxt.async_support as ccxt  # type: ignore[import-untyped]
 from tenacity import (
     AsyncRetrying,
     RetryError,
