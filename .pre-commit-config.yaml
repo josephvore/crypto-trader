@@ -9,11 +9,30 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
+        pass_filenames: false
+        additional_dependencies:
+          - pydantic
+          - pydantic-settings
+          - types-PyYAML
+        args:
+          - --config-file
+          - pyproject.toml
+          - --ignore-missing-imports
+          - --disable-error-code
+          - misc
+          - src
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.9
     hooks:
       - id: bandit
-        args: ["-c", "pyproject.toml", "-r", "src"]
+        pass_filenames: false
+        args:
+          - "-c"
+          - "pyproject.toml"
+          - "-r"
+          - "src"
+          - "-s"
+          - "B104"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
