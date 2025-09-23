@@ -1,0 +1,24 @@
+app:
+  mode: backtest
+  log_level: INFO
+exchange:
+  id: binance
+  sandbox: true
+strategy:
+  class_path: crypto_trader.strategies.momo_vol:MomentumVolStrategy
+  params:
+    ema_fast: 10
+    ema_slow: 30
+    adx_min: 5
+risk:
+  path: crypto_trader.risk.model:RiskModel
+  params:
+    ann_vol_target: 0.2
+    vol_window: 50
+    max_leverage: 2.0
+    kelly_hit_rate: 0.55
+    kelly_avg_win: 1.2
+    kelly_avg_loss: 1.0
+backtest:
+  symbol: BTC/USDT
+  timeframe: 1min
