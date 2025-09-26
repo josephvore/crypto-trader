@@ -29,23 +29,30 @@ export default function Login() {
   return (
     <Container maxWidth="sm" sx={{ mt: 12 }}>
       <Paper sx={{ p: 4 }}>
-        <Stack spacing={2}>
-          <Typography variant="h5">Enter API Password</Typography>
-          <TextField
-            type="password"
-            label="API Password"
-            value={pwd}
-            onChange={e => setPwd(e.target.value)}
-            fullWidth
-          />
-          <FormControlLabel
-            control={<Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />}
-            label="Remember me"
-          />
-          <Button variant="contained" onClick={onSubmit} disabled={!pwd}>
-            Continue
-          </Button>
-        </Stack>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
+          <Stack spacing={2}>
+            <Typography variant="h5">Enter API Password</Typography>
+            <TextField
+              type="password"
+              label="API Password"
+              value={pwd}
+              onChange={e => setPwd(e.target.value)}
+              fullWidth
+            />
+            <FormControlLabel
+              control={<Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />}
+              label="Remember me"
+            />
+            <Button type="submit" variant="contained" disabled={!pwd}>
+              Continue
+            </Button>
+          </Stack>
+        </form>
       </Paper>
     </Container>
   );
