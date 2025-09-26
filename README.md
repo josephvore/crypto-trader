@@ -2,6 +2,8 @@
 
 Production-grade, low-latency crypto trading platform focusing on risk-adjusted returns.
 
+<!-- Verification comment: Access and functionality confirmed -->
+
 - Python 3.11+, asyncio-first with CCXT and Freqtrade
 - Plugin system for strategies, risk, execution
 - Backtesting, tuning, paper, and live trading
